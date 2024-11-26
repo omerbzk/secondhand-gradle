@@ -41,7 +41,7 @@ public class UserService {
                 userRequest.getFirstName(),
                 userRequest.getLastName(),
                 userRequest.getMiddleName(),
-                true);
+                false);
         return userDtoConverter.convert(userInformationRepository.save(userInformation));
     }
 
@@ -55,7 +55,8 @@ public class UserService {
                 userInformation.getMail(),
                 updateUserRequest.getFirstName(),
                 updateUserRequest.getLastName(),
-                updateUserRequest.getMiddleName());
+                updateUserRequest.getMiddleName(),
+                userInformation.getActive());
         return userDtoConverter.convert(userInformationRepository.save(updatedUserInformation));
     }
 
