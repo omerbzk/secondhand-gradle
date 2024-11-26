@@ -2,6 +2,7 @@ package com.folksdev.secondhand.user.service;
 
 import com.folksdev.secondhand.user.TestSupport;
 import com.folksdev.secondhand.user.dto.CreateUserRequest;
+import com.folksdev.secondhand.user.dto.UpdateUserRequest;
 import com.folksdev.secondhand.user.dto.UserDto;
 import com.folksdev.secondhand.user.dto.UserDtoConverter;
 import com.folksdev.secondhand.user.exception.UserNotFoundException;
@@ -79,26 +80,49 @@ class UserServiceTest extends TestSupport {
         verifyNoInteractions(converter);
     }
 
-//    @Test
-//    public void testCreateUser_itShouldReturnCreatedUserDto() {
-//
-//        String mail = "omer@hotmail.com";
-//        CreateUserRequest request = new CreateUserRequest(
-//                mail,
-//                "firstName",
-//                "lastName",
-//                "");
-//
-//
-//        when(repository.findByMail(mail)).thenReturn(Optional.empty());
-//
-//        assertThrows(UserNotFoundException.class, () ->
-//                userService.getUserByMail(mail)
-//        );
-//
-//        verify(repository).findByMail(mail);
-//        verifyNoInteractions(converter);
-//    }
+    @Test
+    public void testCreateUser_itShouldReturnCreatedUserDto() {
+
+        String mail = "omer@hotmail.com";
+        CreateUserRequest request = new CreateUserRequest(mail, "firstName", "lastName", "");
+        UserInformation user = new UserInformation(mail, "firstName", "lastName","", false);
+        UserInformation savedUser = new UserInformation(1L, mail, "firstName", "lastName","", false);
+        UserDto userDto = new UserDto(mail, "firstName", "lastName","");
+
+        when(repository.save(user)).thenReturn(savedUser);
+        when(converter.convert(savedUser)).thenReturn(userDto);
+
+
+        UserDto result = userService.createUser(request);
+
+        assertEquals(userDto, result);
+
+        verify(repository).save(user);
+        verify(converter).convert(savedUser);
+    }
+
+    @Test
+    public void testUpdateUser_whenUserMailExistAndUserIsActive_itShouldReturnUpdatedUserDto() {
+        String mail = "omer@hotmail.com";
+        UpdateUserRequest request = new UpdateUserRequest( "firstName2", "lastName2", "middleName");
+        UserInformation user = new UserInformation(1L, mail, "firstName", "lastName","", true);
+        UserInformation updatedUser = new UserInformation(1L, mail, "firstName2", "lastName2","middleName", true);
+        UserInformation savedUser = new UserInformation(1L, mail, "firstName2", "lastName2","middleName", false);
+        UserDto userDto = new UserDto(mail, "firstName2", "lastName2","middleName");
+
+        when(repository.findByMail(mail)).thenReturn(Optional.of(user));
+        when(repository.save(updatedUser)).thenReturn(savedUser);
+        when(converter.convert(savedUser)).thenReturn(userDto);
+
+
+        UserDto result = userService.updateUser(mail, request);
+
+        assertEquals(userDto, result);
+
+        verify(repository).findByMail(mail);
+        verify(repository).save(updatedUser);
+        verify(converter).convert(savedUser);
+    }
 
 
 

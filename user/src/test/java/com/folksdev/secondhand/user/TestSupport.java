@@ -34,7 +34,7 @@ public class TestSupport {
 
     public static UserInformation generateUser(String mail) {
         return new UserInformation(userId,
-                userId + "@folksdev.net",
+                mail,
                 "firstName" + userId,
                 "lastName" + userId,
                 "",
