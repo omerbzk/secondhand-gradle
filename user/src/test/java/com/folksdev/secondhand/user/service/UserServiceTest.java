@@ -10,7 +10,6 @@ import com.folksdev.secondhand.user.model.UserInformation;
 import com.folksdev.secondhand.user.repository.UserInformationRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +51,7 @@ class UserServiceTest extends TestSupport {
 
     @Test
     public void testGetUserByMail_whenUserMailExist_itShouldReturnUserDto() {
-        String mail = "omer@hotmail.com";
+        String mail = "omertrer@hotmail.com";
         UserInformation user = generateUser(mail);
         UserDto userDto = generateUserDto(mail);
 
@@ -68,7 +67,7 @@ class UserServiceTest extends TestSupport {
 
     @Test
     public void testGetUserByMail_whenUserMailDoesNotExist_itShouldThrowUserNotFoundException() {
-        String mail = "omer@hotmail.com";
+        String mail = "omeeerrrr@hotmail.com";
 
         when(repository.findByMail(mail)).thenReturn(Optional.empty());
 
@@ -83,7 +82,7 @@ class UserServiceTest extends TestSupport {
     @Test
     public void testCreateUser_itShouldReturnCreatedUserDto() {
 
-        String mail = "omer@hotmail.com";
+        String mail = "omeeer@hotmail.com";
         CreateUserRequest request = new CreateUserRequest(mail, "firstName", "lastName", "");
         UserInformation user = new UserInformation(mail, "firstName", "lastName","", false);
         UserInformation savedUser = new UserInformation(1L, mail, "firstName", "lastName","", false);
@@ -103,7 +102,7 @@ class UserServiceTest extends TestSupport {
 
     @Test
     public void testUpdateUser_whenUserMailExistAndUserIsActive_itShouldReturnUpdatedUserDto() {
-        String mail = "omer@hotmail.com";
+        String mail = "omerrr@hotmail.com";
         UpdateUserRequest request = new UpdateUserRequest( "firstName2", "lastName2", "middleName");
         UserInformation user = new UserInformation(1L, mail, "firstName", "lastName","", true);
         UserInformation updatedUser = new UserInformation(1L, mail, "firstName2", "lastName2","middleName", true);
