@@ -18,13 +18,14 @@ repositories {
 }
 
 dependencies {
-	testImplementation("junit:junit:5.7.0")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation ("org.projectlombok:lombok:1.18.24")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+		exclude(group = "org.junit.vintage", module = "junit-vintage-engine") // JUnit 4'ü dışla
+	}
+	testImplementation("org.junit.jupiter:junit-jupiter:5.10.0") // Daha güncel bir sürüm
 }
 
 tasks.withType<Test> {
